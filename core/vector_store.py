@@ -9,7 +9,7 @@ from config.logging_config import logger
 class VectorStoreManager:
     def __init__(self, api_key: str = None, persist_directory: str = settings.VECTOR_DB_PATH):
         self.persist_directory = persist_directory
-        self.embeddings = get_embeddings(api_key=api_key or GEMINI_API_KEY)
+        self.embeddings = get_embeddings(api_key=api_key or settings.API_KEY or GEMINI_API_KEY)
         os.makedirs(self.persist_directory, exist_ok=True)
         self.db = Chroma(
             persist_directory=self.persist_directory,
