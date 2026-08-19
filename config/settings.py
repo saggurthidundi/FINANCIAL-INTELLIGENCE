@@ -1,20 +1,24 @@
 import os
 import streamlit as st
 
-GEMINI_API_KEY: str = "YOUR_GEMINI_API_KEY_HERE"
+GEMINI_API_KEY_PLACEHOLDER: str = "YOUR_GEMINI_API_KEY_HERE"
 
-def get_secret_key():
-    # 1. Check Streamlit Cloud Secrets
+def get_secret_key() -> str:
+    # 1. Check Streamlit Secrets
     try:
         if "GEMINI_API_KEY" in st.secrets:
-            return st.secrets["GEMINI_API_KEY"]
+            key = st.secrets["GEMINI_API_KEY"]
+            if key and key != GEMINI_API_KEY_PLACEHOLDER:
+                return key.strip()
     except Exception:
         pass
+
     # 2. Check OS Environment
-    if os.getenv("GEMINI_API_KEY"):
-        return os.getenv("GEMINI_API_KEY")
-    # 3. Fallback
-    return GEMINI_API_KEY
+    env_key = os.getenv("GEMINI_API_KEY")
+    if env_key and env_key != GEMINI_API_KEY_PLACEHOLDER:
+        return env_key.strip()
+
+    return GEMINI_API_KEY_PLACEHOLDER
 
 class Settings:
     PROJECT_NAME: str = "Financial Intelligence"

@@ -2,12 +2,15 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from core.vector_store import VectorStoreManager
-from config.settings import GEMINI_API_KEY, settings
+from config.settings import settings
 
 
 class FinancialRAGEngine:
     def __init__(self, api_key: str = None):
-        key = api_key or GEMINI_API_KEY
+        key = api_key or settings.API_KEY
+        if not key or key == "YOUR_GEMINI_API_KEY_HERE":
+            raise ValueError("No valid Gemini API key provided. Set GEMINI_API_KEY in Streamlit Secrets.")
+
         self.store = VectorStoreManager(api_key=key)
         self.retriever = self.store.get_retriever()
         
@@ -25,12 +28,10 @@ class FinancialRAGEngine:
         self.output_parser = StrOutputParser()
 
     def query_research(self, question: str) -> dict:
-        # Retrieve relevant document chunks
         docs = self.retriever.invoke(question)
         context_text = "\n\n".join([doc.page_content for doc in docs])
         sources = [doc.metadata for doc in docs]
         
-        # Build and invoke the modern LCEL chain
         chain = self.prompt | self.llm | self.output_parser
         answer = chain.invoke({
             "context": context_text,

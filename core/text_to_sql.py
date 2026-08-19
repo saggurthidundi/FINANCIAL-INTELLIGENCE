@@ -3,12 +3,15 @@ from langchain_community.utilities import SQLDatabase
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from config.settings import GEMINI_API_KEY, settings
+from config.settings import settings
 
 
 class TextToSQLEngine:
     def __init__(self, api_key: str = None):
-        key = api_key or GEMINI_API_KEY
+        key = api_key or settings.API_KEY
+        if not key or key == "YOUR_GEMINI_API_KEY_HERE":
+            raise ValueError("No valid Gemini API key provided. Set GEMINI_API_KEY in Streamlit Secrets.")
+
         self.db = SQLDatabase.from_uri(settings.DATABASE_URL)
         self.llm = ChatGoogleGenerativeAI(
             model=settings.PRIMARY_GEMINI_MODEL,
@@ -39,7 +42,7 @@ Schema:
             "question": natural_language_query
         })
         
-        # Clean formatting if LLM wrapped in ```sql ... ```
+        # Clean formatting
         clean_sql = re.sub(r'```sql|```', '', raw_sql).strip()
         
         # Security Policy: Ensure Read-Only SQL
