@@ -18,8 +18,12 @@ def get_secret_key() -> str:
 
     return "YOUR_GEMINI_API_KEY_HERE"
 
-# Exported module-level variable to satisfy direct imports
 GEMINI_API_KEY: str = get_secret_key()
+
+# Explicitly set environment variable for Google SDKs
+if GEMINI_API_KEY and GEMINI_API_KEY != "YOUR_GEMINI_API_KEY_HERE":
+    os.environ["GOOGLE_API_KEY"] = GEMINI_API_KEY
+    os.environ["GEMINI_API_KEY"] = GEMINI_API_KEY
 
 class Settings:
     PROJECT_NAME: str = "Financial Intelligence"
