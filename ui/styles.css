@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Google Sans', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #e3e3e3;
+}
+
+/* Gemini Ambient Background */
+.stApp {
+    background-color: #131314 !important;
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(78, 128, 238, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(155, 114, 207, 0.08) 0%, transparent 40%) !important;
+}
+
+/* Gemini Sparkle Gradient Text */
+.gemini-gradient-text {
+    background: linear-gradient(135deg, #4e80ee 0%, #9b72cf 50%, #d96570 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+/* Gemini Interactive Prompt Chips */
+.gemini-chip {
+    background: #1e1f20;
+    border: 1px solid #333537;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+.gemini-chip:hover {
+    background: #282a2c;
+    border-color: #4e80ee;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(78, 128, 238, 0.15);
+}
+
+/* Gemini Thought Bubble / Glass Surface */
+.gemini-card {
+    background: #1e1f20;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Sidebar Customization (Gemini Left Drawer) */
+[data-testid="stSidebar"] {
+    background-color: #1e1f20 !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Gemini Floating Bottom Input */
+.stChatInputContainer {
+    padding-bottom: 20px;
+}
+.stChatInput > div {
+    background-color: #1e1f20 !important;
+    border: 1px solid #3c4043 !important;
+    border-radius: 28px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+.stChatInput > div:focus-within {
+    border-color: #4e80ee !important;
+    box-shadow: 0 0 0 2px rgba(78, 128, 238, 0.3) !important;
+}
+
+/* Buttons */
+.stButton > button {
+    background: #1e1f20 !important;
+    color: #e3e3e3 !important;
+    border: 1px solid #3c4043 !important;
+    border-radius: 20px !important;
+    font-weight: 500 !important;
+    padding: 8px 20px !important;
+    transition: all 0.2s ease !important;
+}
+.stButton > button:hover {
+    background: linear-gradient(135deg, rgba(78, 128, 238, 0.2) 0%, rgba(155, 114, 207, 0.2) 100%) !important;
+    border-color: #4e80ee !important;
+    color: #ffffff !important;
+}
+
+/* Tab Bar */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.stTabs [data-baseweb="tab"] {
+    background-color: transparent !important;
+    border-radius: 20px !important;
+    color: #9aa0a6 !important;
+    font-weight: 500 !important;
+    padding: 8px 18px !important;
+    border: none !important;
+}
+.stTabs [aria-selected="true"] {
+    background-color: #282a2c !important;
+    color: #4e80ee !important;
+}
+
+/* Chat Messages */
+[data-testid="stChatMessage"] {
+    background-color: transparent !important;
+    padding: 12px 0px !important;
+}

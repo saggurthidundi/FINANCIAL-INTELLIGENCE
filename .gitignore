@@ -1,0 +1,24 @@
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Persistent Local Databases & Vector Stores
+data/chroma_db/
+data/financial_warehouse.db
+*.db
+*.sqlite3
+
+# System & IDE files
+.DS_Store
+.vscode/
+.idea/
+*.log

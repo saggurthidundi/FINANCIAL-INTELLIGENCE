@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  finvision-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: finvision_platform
+    ports:
+      - "8000:8000"   # FastAPI Backend
+      - "8501:8501"   # Streamlit Glassmorphic Dashboard
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - DATABASE_URL=sqlite:////app/data/financial_warehouse.db
+      - VECTOR_DB_PATH=/app/data/chroma_db
+      - APP_ENV=production
+    volumes:
+      - finvision_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  finvision_data:
+    driver: local

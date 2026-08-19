@@ -1,0 +1,28 @@
+# Git & Documentation
+.git
+.gitignore
+README.md
+*.md
+
+# Virtual Environments & Python Cache
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Local SQLite databases & ChromaDB vectors
+data/chroma_db/
+data/financial_warehouse.db
+*.db
+*.sqlite3
+
+# Logs & System Files
+*.log
+.DS_Store
+.idea/
+.vscode/
+.pytest_cache/
