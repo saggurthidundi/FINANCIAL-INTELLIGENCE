@@ -8,14 +8,15 @@ from config.settings import settings
 
 class TextToSQLEngine:
     def __init__(self, api_key: str = None):
-        key = api_key or settings.API_KEY
-        if not key or key == "YOUR_GEMINI_API_KEY_HERE":
-            raise ValueError("No valid Gemini API key provided. Set GEMINI_API_KEY in Streamlit Secrets.")
+        # Resolve active key
+        self.api_key = api_key or settings.API_KEY
+        if not self.api_key or self.api_key == "YOUR_GEMINI_API_KEY_HERE":
+            raise ValueError("Missing Gemini API Key. Please add GOOGLE_API_KEY to your Streamlit App Secrets.")
 
         self.db = SQLDatabase.from_uri(settings.DATABASE_URL)
         self.llm = ChatGoogleGenerativeAI(
             model=settings.PRIMARY_GEMINI_MODEL,
-            google_api_key=key,
+            google_api_key=self.api_key,
             temperature=settings.TEMPERATURE
         )
         
@@ -36,16 +37,19 @@ Schema:
     def generate_and_execute(self, natural_language_query: str) -> dict:
         schema_info = self.db.get_table_info()
         
-        chain = self.prompt | self.llm | self.output_parser
-        raw_sql = chain.invoke({
-            "schema": schema_info,
-            "question": natural_language_query
-        })
+        try:
+            chain = self.prompt | self.llm | self.output_parser
+            raw_sql = chain.invoke({
+                "schema": schema_info,
+                "question": natural_language_query
+            })
+        except Exception as e:
+            raise RuntimeError(f"Gemini API generation failed: {str(e)}")
         
-        # Clean formatting
+        # Clean markdown formatting if present
         clean_sql = re.sub(r'```sql|```', '', raw_sql).strip()
         
-        # Security Policy: Ensure Read-Only SQL
+        # Enforce read-only constraint
         forbidden = ["DROP", "DELETE", "TRUNCATE", "ALTER", "UPDATE", "INSERT"]
         if any(bad in clean_sql.upper().split() for bad in forbidden):
             raise ValueError("Read-only security violation: Database modifications are prohibited.")
